@@ -2,8 +2,9 @@
 import { DropdownMenu, 
      DropdownMenuItem, 
      DropdownMenuTrigger ,
-        DropdownMenuContent
-    } from "@/components/ui/dropdown-menu";
+        DropdownMenuContent,
+    DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import { MenuIcon } from "lucide-react";
 import {
     RegisterLink,
@@ -11,15 +12,20 @@ import {
     LogoutLink
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import Link from "next/link";
+import { createFavstayHome } from "../actions";
 
 export async function UserNav() {
-    const {getUser}= getKindeServerSession();
+    const {getUser} = getKindeServerSession();
     const user = await getUser();
+    const createHomewithId = createFavstayHome.bind(null, {
+        userId: user?.id as string,
+    });
 
     return (
     <DropdownMenu>
         <DropdownMenuTrigger>
-            <div className="rounded-full border px-2 py-2 lg:py-4 lg:px-4 flex items-center gap-3">
+            <div className="rounded-full border px-2 py-2 lg:px-4 lg:py-2 flex items-center gap-x-3">
                <MenuIcon className="w-6 h-6 lg:w-5 lg:h-5" /> 
                <img 
                src={
@@ -34,9 +40,33 @@ export async function UserNav() {
         <DropdownMenuContent align="end" className="w-[200px]">
         {user ? (
             <>
+            <DropdownMenuItem>
+                <form action={createHomewithId} className="w-full">
+                    <button type="submit" className="w-full text-start">
+                    Favstay your Home
+                    </button>
+
+                </form>
+                 </DropdownMenuItem>
+            <DropdownMenuItem>
+                <Link href="/my-homes" className="w-full">
+                 My Listings 
+                 </Link>
+                 </DropdownMenuItem>
+            <DropdownMenuItem>
+                <Link href="/favourites" className="w-full">
+                 My Favourites 
+                 </Link>
+                 </DropdownMenuItem>
+            <DropdownMenuItem>
+                <Link href="/homes" className="w-full">
+                 My Reservations 
+                 </Link>
+                 </DropdownMenuItem>
+                < DropdownMenuSeparator/>
                 <DropdownMenuItem>
                 <LogoutLink className="w-full">Logout</LogoutLink>
-                </DropdownMenuItem>
+            </DropdownMenuItem>
             </>
          ): (
             <>
