@@ -16,10 +16,10 @@ import Link from "next/link";
 import { createFavstayHome } from "../actions";
 
 export async function UserNav() {
-    const {getUser} = getKindeServerSession();
+    const { getUser } = getKindeServerSession();
     const user = await getUser();
-    const createHomewithId = createFavstayHome.bind(null, {
-        userId: user?.id as string,
+    const createHomeWithId = createFavstayHome.bind(null, {
+        userId: user?.id as string
     });
 
     return (
@@ -29,7 +29,7 @@ export async function UserNav() {
                <MenuIcon className="w-6 h-6 lg:w-5 lg:h-5" /> 
                <img 
                src={
-                user?.picture??
+                user?.picture ??
                "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
                 }
                alt="Image of the user"
@@ -41,12 +41,11 @@ export async function UserNav() {
         {user ? (
             <>
             <DropdownMenuItem>
-                <form action={createHomewithId} className="w-full">
-                    <button type="submit" className="w-full text-start">
-                    Favstay your Home
-                    </button>
-
-                </form>
+               <form action={createHomeWithId} className="w-full">
+                <button type="submit" className="w-full text-start">
+                 Favstay your Home
+                </button>
+               </form>
                  </DropdownMenuItem>
             <DropdownMenuItem>
                 <Link href="/my-homes" className="w-full">
@@ -54,9 +53,10 @@ export async function UserNav() {
                  </Link>
                  </DropdownMenuItem>
             <DropdownMenuItem>
-                <Link href="/favourites" className="w-full">
-                 My Favourites 
-                 </Link>
+            <Link href="/favorites" className="w-full">
+                My Favorites
+              </Link>
+
                  </DropdownMenuItem>
             <DropdownMenuItem>
                 <Link href="/homes" className="w-full">

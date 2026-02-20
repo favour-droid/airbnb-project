@@ -7,34 +7,53 @@ generator client {
   provider = "prisma-client-js"
 }
 model User {
-  id String @id @unique
+  id           String @id @unique
 
-  email String 
-  firstName String
-  lastName String
+  email        String 
+  firstName    String
+  lastName     String
   profileImage String?
-  homes Home[]
+  Home         Home[]
+  Favorite      Favorite[]
 
 }
 model Home {
-  id String @id @default (uuid())
+  id           String @id @default(uuid())
 
-  title String?
-  description String?
-  guests String?
-  bedrooms String?
-  bathrooms String?
-  country String?
-  photo String?
+  title        String?
+  description  String?
+  guests       String?
+  bedrooms     String?
+  bathrooms    String?
+  country      String?
+  photo        String?
   price Int?
   categoryName String?
+  Favorite      Favorite[]
 
-  addedCategory Boolean @default(false)
+  region    String?
+  town      String?
+  latitude  Float?
+  longitude Float?
+
+
+  addedCategory    Boolean @default(false)
   addedDescription Boolean @default(false)
-  addedLocation Boolean @default(false)
+  addedLocation    Boolean @default(false)
 
 
-  createdAt DateTime @default(now())
-  User     User?     @relation(fields: [userId], references: [id])
-  userId   String?
+  createdAt        DateTime @default(now())
+  User             User?     @relation(fields: [userId], references: [id])
+  userId           String?
+}
+
+model Favorite {
+  id        String @id @default(uuid())
+
+  home      Home?   @relation(fields: [homeId], references: [id])
+  homeId    String?
+  user      User?   @relation(fields: [userId], references: [id])
+  userId    String?
+
+createdAt DateTime @default(now())
 }

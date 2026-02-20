@@ -8,6 +8,11 @@ images: {
       protocol:'https',
       port:"",
     },
+      {
+      hostname: "bjkfbtygdoawiobrjzyd.supabase.co",
+      protocol:'https',
+      port:"",
+    },
   ],
 },
 };

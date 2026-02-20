@@ -38,7 +38,7 @@
   --font-sans: Plus Jakarta Sans, sans-serif;
   --font-serif: Lora, serif;
   --font-mono: IBM Plex Mono, monospace;
-  --radius: 1.4rem;
+  --radius: 0.55rem;
   --shadow-x: 0px;
   --shadow-y: 2px;
   --shadow-blur: 3px;
@@ -93,7 +93,7 @@
   --font-sans: Plus Jakarta Sans, sans-serif;
   --font-serif: Lora, serif;
   --font-mono: IBM Plex Mono, monospace;
-  --radius: 1.4rem;
+  --radius: 0.55rem;
   --shadow-x: 0px;
   --shadow-y: 2px;
   --shadow-blur: 3px;
@@ -168,6 +168,10 @@
   --tracking-wide: calc(var(--tracking-normal) + 0.025em);
   --tracking-wider: calc(var(--tracking-normal) + 0.05em);
   --tracking-widest: calc(var(--tracking-normal) + 0.1em);
+}
+
+body {
+  letter-spacing: var(--tracking-normal);
 }
 
 body {
