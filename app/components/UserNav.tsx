@@ -59,7 +59,7 @@ export async function UserNav() {
 
                  </DropdownMenuItem>
             <DropdownMenuItem>
-                <Link href="/homes" className="w-full">
+                <Link href="/reservations" className="w-full">
                  My Reservations 
                  </Link>
                  </DropdownMenuItem>

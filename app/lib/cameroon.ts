@@ -52,7 +52,7 @@ export const cameroonRegions: Region[] = [
     label: "West",
     value: "west",
     towns: [
-      { label: "Baffoussam", value: "baffoussam", lat: 3.8480, lng: 11.5021 },
+      { label: "Bafoussam", value: "bafoussam", lat: 3.8480, lng: 11.5021 },
       { label: "Dschang", value: "dschang", lat: 4.1653, lng: 11.5336 },
     ],
   },
@@ -98,3 +98,16 @@ export const cameroonRegions: Region[] = [
     ],
   },
 ]
+// ✅ Server-safe helpers (use THESE in HomeRoute)
+
+export function getRegionByValue(value: string) {
+  return cameroonRegions.find((r) => r.value === value);
+}
+
+export function getTownByValue(townValue: string) {
+  for (const region of cameroonRegions) {
+    const town = region.towns.find((t) => t.value === townValue);
+    if (town) return town;
+  }
+  return null;
+}

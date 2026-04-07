@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { supabase } from "./lib/supabase";
 import { cameroonRegions } from "./lib/cameroon";
 import { revalidatePath } from "next/cache";
+import { Reservation } from "@prisma/client";
 
 export async function createFavstayHome({userId}: {userId: string}) {
     
@@ -169,4 +170,37 @@ const data = await prisma.favorite.create({
 });
 
 revalidatePath(pathName);
+}
+
+export async function deleteFromFavoriteButton(formData: FormData) {
+  const favoriteId = formData.get("favoriteId") as string;
+  const pathName = formData.get("pathName") as string;
+  const userId = formData.get("userId") as string;
+
+  const data = await prisma.favorite.delete({
+    where: {
+      id: favoriteId,
+      userId: userId,
+    },
+  });
+  revalidatePath(pathName);
+}
+
+export async function createReservation (formData: FormData) {
+  const userId = formData.get("userId") as string;
+  const homeId = formData.get("homeId") as string;
+  const startDate = formData.get("startDate") as string;
+  const endDate =formData.get("endDate") as string;
+
+  
+  const data = await prisma.reservation.create ({
+    data:{
+      userId: userId,
+      endDate: endDate,
+      startDate: startDate,
+      homeId: homeId,
+    },
+  });
+  return redirect("/");
+
 }
