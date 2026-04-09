@@ -77,6 +77,7 @@
 
 
 // app/reservations/page.tsx
+
 import prisma from "../lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { NoItems } from "../components/NoItems";
@@ -85,11 +86,17 @@ import { ReservationsClient } from "../components/ReservationsClient";
 
 async function getData(userId: string) {
   const data = await prisma.reservation.findMany({
-    where: { userId },
+    where: {
+      userId,
+      // FIX: Only fetch active (non-cancelled) reservations
+      // Cancelled ones are deleted now via cancelReservation action,
+      // but this filter is a safety net in case any old "cancelled" records exist
+      status: { not: "cancelled" },
+    },
     select: {
       id: true,
-      paymentStatus: true,  // ← ADD THIS
-      status: true,          // ← ADD THIS
+      paymentStatus: true,
+      status: true,
       home: {
         select: {
           id: true,
@@ -123,11 +130,11 @@ export default async function ReservationsRoute() {
 
       {data.length === 0 ? (
         <NoItems
-          title="Hey you don’t have any Reservations"
-          description="Please add a reservation to see it right here..."
+          title="No active reservations"
+          description="You have no active reservations. Browse listings to make one!"
         />
       ) : (
-         <ReservationsClient data={data} userId={user.id} />
+        <ReservationsClient data={data} userId={user.id} />
       )}
     </section>
   );

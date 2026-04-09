@@ -1,58 +1,240 @@
-"use server";
+// "use server";
 
-import  prisma  from "./lib/db";
+// import  prisma  from "./lib/db";
+// import { redirect } from "next/navigation";
+// import { supabase } from "./lib/supabase";
+// import { cameroonRegions } from "./lib/cameroon";
+// import { revalidatePath } from "next/cache";
+// import { Reservation } from "@prisma/client";
+
+// export async function createFavstayHome({userId}: {userId: string}) {
+    
+//     // const data = await prisma.home.findFirst({
+//     //  where: {
+//     //     userId: userId,
+//     //  },
+//     //  orderBy: {
+//     //     createdAt: "desc",
+//     //  },
+//     // });
+
+//     // if(data === null) {
+//     //     const data = await prisma.home.create({
+//     //         data: {
+//     //             userId: userId,
+//     //         },
+//     //     });
+
+//     //     return redirect(`/create/${data.id}/structure`);
+
+
+//     // } else if (
+//     //        !data.addedCategory 
+//     //     && !data.addedDescription 
+//     //     && !data.addedLocation
+//     // ) {
+//     //     const data = await prisma.home.create({
+//     //         data: {
+//     //             userId: userId,
+//     //         },
+//     //     });
+        
+//     //     return redirect(`/create/${data.id}/structure`);
+//     // } else if (data.addedCategory && !data.addedDescription) {
+//     //     return redirect(`/create/${data.id}/description`);
+//     // } else if(
+//     //     data.addedCategory && 
+//     //     data.addedDescription && 
+//     //     !data.addedLocation){
+            
+//     //     return redirect(`/create/${data.id}/address`);
+//     //    }   else if(data.addedCategory && data?.addedCategory && data.addedLocation){
+//     //      return redirect(`/create/${data.id}/structure`);
+//     //    }
+
+    
+//   const home = await prisma.home.create({
+//     data: {
+//       userId: userId,
+//     },
+//   });
+
+//   return redirect(`/create/${home.id}/structure`);
+
+//     }
+
+// export async function createCategoryPage(formData: FormData) {
+//     const categoryName = formData.get("categoryName") as string;
+//     const homeId = formData.get("homeId") as string;
+//     const data = await prisma.home.update({
+//         where: {
+//             id: homeId,
+//         },
+//         data: {
+//             categoryName: categoryName,
+//             addedCategory: true,
+//         },
+//     });
+//  return redirect(`/create/${homeId}/description`);
+// }
+// export async function CreateDescription(formData: FormData) {
+ 
+//     const title = formData.get("title") as string;
+//     const description = formData.get("description") as string;
+//     const price = formData.get("price");
+//     const imageFile = formData.get("image") as File;
+//     const homeId = formData.get("homeId") as string;
+//     const guestNumber = formData.get("guest") as string;
+//     const roomNumber = formData.get("room") as string;
+//     const bathroomsNumber = formData.get("bathroom") as string;
+
+//     const { data: imageData } = await supabase.storage
+//     .from("images")
+//     .upload(`${imageFile.name}-${new Date()}`, imageFile, {
+//     cacheControl: "2592000",
+//     contentType: "image/png"
+// });
+
+// const data = await prisma.home.update({
+//     where: {
+//         id: homeId,
+//     },
+//     data: {
+//     title: title,
+//     description: description,
+//     price: Number(price),
+//     bedrooms: roomNumber,
+//     bathrooms: bathroomsNumber,
+//     guests: guestNumber,
+//     photo: imageData?.path,
+//     addedDescription: true,
+//     },
+// });
+
+// return redirect(`/create/${homeId}/address`);
+// }
+// export async function CreateLocation(formData: FormData) {
+// //     const homeId = formData.get("homeId") as string;
+// // const countryValue = formData.get("countryValue") as string;
+
+//       const homeId = formData.get("homeId") as string;
+//   const region = formData.get("region") as string;
+//   const town = formData.get("town") as string;
+
+//     // Find town coordinates
+//   const townData = cameroonRegions
+//     .flatMap((r) => r.towns)
+//     .find((t) => t.value === town);
+
+//   if (!townData) {
+//     throw new Error("Invalid town selected");
+//   }
+
+// //     const data = await prisma.home.update({
+// //         where: {
+// //             id: homeId,
+// //         },
+// //         data: {
+// //             addedLocation: true,
+// //             country: countryValue,
+// //         },
+// //     });
+// //     return redirect("/");
+
+
+//   await prisma.home.update({
+//     where: {
+//       id: homeId,
+//     },
+//     data: {
+//       addedLocation: true,
+//       region,
+//       town,
+//       latitude: townData.lat,
+//       longitude: townData.lng,
+//     },
+//   });
+
+//   return redirect("/");
+// } 
+// export async function   addToFavorite(formData: FormData) {
+// const homeId = formData.get("homeId") as string;
+// const userId = formData.get("userId") as string;
+// const pathName = formData.get("pathName") as string;
+
+// const data = await prisma.favorite.create({
+//   data: {
+//     homeId: homeId,
+//     userId: userId,
+//   }
+// });
+
+// revalidatePath(pathName);
+// }
+
+// export async function deleteFromFavoriteButton(formData: FormData) {
+//   const favoriteId = formData.get("favoriteId") as string;
+//   const pathName = formData.get("pathName") as string;
+//   const userId = formData.get("userId") as string;
+
+//   const data = await prisma.favorite.delete({
+//     where: {
+//       id: favoriteId,
+//       userId: userId,
+//     },
+//   });
+//   revalidatePath(pathName);
+// }
+
+// export async function createReservation (formData: FormData) {
+//   const userId = formData.get("userId") as string;
+//   const homeId = formData.get("homeId") as string;
+//   const startDate = formData.get("startDate") as string;
+//   const endDate =formData.get("endDate") as string;
+
+  
+//   const data = await prisma.reservation.create ({
+//     data:{
+//       userId: userId,
+//       endDate: endDate,
+//       startDate: startDate,
+//       homeId: homeId,
+//     },
+//   });
+//   return redirect("/");
+
+// }
+
+// export async function cancelReservation(formData: FormData) {
+//   const reservationId = formData.get("reservationId") as string;
+//   const userId = formData.get("userId") as string;
+
+//   // Make sure the reservation belongs to this user before cancelling
+//   const reservation = await prisma.reservation.findUnique({
+//     where: { id: reservationId },
+//   });
+
+//   if (!reservation || reservation.userId !== userId) {
+//     throw new Error("Reservation not found or unauthorized");
+//   }
+
+//   await prisma.reservation.update({
+//     where: { id: reservationId },
+//     data: { status: "cancelled" },
+//   });
+
+//   revalidatePath("/reservations");
+// }
+
+"use server";
+ 
+import prisma from "./lib/db";
 import { redirect } from "next/navigation";
 import { supabase } from "./lib/supabase";
 import { cameroonRegions } from "./lib/cameroon";
 import { revalidatePath } from "next/cache";
-import { Reservation } from "@prisma/client";
 
-export async function createFavstayHome({userId}: {userId: string}) {
-    
-    // const data = await prisma.home.findFirst({
-    //  where: {
-    //     userId: userId,
-    //  },
-    //  orderBy: {
-    //     createdAt: "desc",
-    //  },
-    // });
-
-    // if(data === null) {
-    //     const data = await prisma.home.create({
-    //         data: {
-    //             userId: userId,
-    //         },
-    //     });
-
-    //     return redirect(`/create/${data.id}/structure`);
-
-
-    // } else if (
-    //        !data.addedCategory 
-    //     && !data.addedDescription 
-    //     && !data.addedLocation
-    // ) {
-    //     const data = await prisma.home.create({
-    //         data: {
-    //             userId: userId,
-    //         },
-    //     });
-        
-    //     return redirect(`/create/${data.id}/structure`);
-    // } else if (data.addedCategory && !data.addedDescription) {
-    //     return redirect(`/create/${data.id}/description`);
-    // } else if(
-    //     data.addedCategory && 
-    //     data.addedDescription && 
-    //     !data.addedLocation){
-            
-    //     return redirect(`/create/${data.id}/address`);
-    //    }   else if(data.addedCategory && data?.addedCategory && data.addedLocation){
-    //      return redirect(`/create/${data.id}/structure`);
-    //    }
-
-    
+export async function createFavstayHome({ userId }: { userId: string }) {
   const home = await prisma.home.create({
     data: {
       userId: userId,
@@ -60,68 +242,60 @@ export async function createFavstayHome({userId}: {userId: string}) {
   });
 
   return redirect(`/create/${home.id}/structure`);
-
-    }
+}
 
 export async function createCategoryPage(formData: FormData) {
-    const categoryName = formData.get("categoryName") as string;
-    const homeId = formData.get("homeId") as string;
-    const data = await prisma.home.update({
-        where: {
-            id: homeId,
-        },
-        data: {
-            categoryName: categoryName,
-            addedCategory: true,
-        },
-    });
- return redirect(`/create/${homeId}/description`);
+  const categoryName = formData.get("categoryName") as string;
+  const homeId = formData.get("homeId") as string;
+  await prisma.home.update({
+    where: { id: homeId },
+    data: {
+      categoryName: categoryName,
+      addedCategory: true,
+    },
+  });
+  return redirect(`/create/${homeId}/description`);
 }
-export async function CreateDescription(formData: FormData) {
- 
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
-    const price = formData.get("price");
-    const imageFile = formData.get("image") as File;
-    const homeId = formData.get("homeId") as string;
-    const guestNumber = formData.get("guest") as string;
-    const roomNumber = formData.get("room") as string;
-    const bathroomsNumber = formData.get("bathroom") as string;
 
-    const { data: imageData } = await supabase.storage
+export async function CreateDescription(formData: FormData) {
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const price = formData.get("price");
+  const imageFile = formData.get("image") as File;
+  const homeId = formData.get("homeId") as string;
+  const guestNumber = formData.get("guest") as string;
+  const roomNumber = formData.get("room") as string;
+  const bathroomsNumber = formData.get("bathroom") as string;
+
+  const { data: imageData } = await supabase.storage
     .from("images")
     .upload(`${imageFile.name}-${new Date()}`, imageFile, {
-    cacheControl: "2592000",
-    contentType: "image/png"
-});
+      cacheControl: "2592000",
+      contentType: "image/png",
+    });
 
-const data = await prisma.home.update({
-    where: {
-        id: homeId,
-    },
+  await prisma.home.update({
+    where: { id: homeId },
     data: {
-    title: title,
-    description: description,
-    price: Number(price),
-    bedrooms: roomNumber,
-    bathrooms: bathroomsNumber,
-    guests: guestNumber,
-    photo: imageData?.path,
-    addedDescription: true,
+      title: title,
+      description: description,
+      price: Number(price),
+      bedrooms: roomNumber,
+      bathrooms: bathroomsNumber,
+      guests: guestNumber,
+      photo: imageData?.path,
+      addedDescription: true,
     },
-});
+  });
 
-return redirect(`/create/${homeId}/address`);
+  return redirect(`/create/${homeId}/address`);
 }
-export async function CreateLocation(formData: FormData) {
-//     const homeId = formData.get("homeId") as string;
-// const countryValue = formData.get("countryValue") as string;
 
-      const homeId = formData.get("homeId") as string;
+export async function CreateLocation(formData: FormData) {
+  const homeId = formData.get("homeId") as string;
   const region = formData.get("region") as string;
   const town = formData.get("town") as string;
 
-    // Find town coordinates
   const townData = cameroonRegions
     .flatMap((r) => r.towns)
     .find((t) => t.value === town);
@@ -130,22 +304,8 @@ export async function CreateLocation(formData: FormData) {
     throw new Error("Invalid town selected");
   }
 
-//     const data = await prisma.home.update({
-//         where: {
-//             id: homeId,
-//         },
-//         data: {
-//             addedLocation: true,
-//             country: countryValue,
-//         },
-//     });
-//     return redirect("/");
-
-
   await prisma.home.update({
-    where: {
-      id: homeId,
-    },
+    where: { id: homeId },
     data: {
       addedLocation: true,
       region,
@@ -156,20 +316,21 @@ export async function CreateLocation(formData: FormData) {
   });
 
   return redirect("/");
-} 
-export async function   addToFavorite(formData: FormData) {
-const homeId = formData.get("homeId") as string;
-const userId = formData.get("userId") as string;
-const pathName = formData.get("pathName") as string;
+}
 
-const data = await prisma.favorite.create({
-  data: {
-    homeId: homeId,
-    userId: userId,
-  }
-});
+export async function addToFavorite(formData: FormData) {
+  const homeId = formData.get("homeId") as string;
+  const userId = formData.get("userId") as string;
+  const pathName = formData.get("pathName") as string;
 
-revalidatePath(pathName);
+  await prisma.favorite.create({
+    data: {
+      homeId: homeId,
+      userId: userId,
+    },
+  });
+
+  revalidatePath(pathName);
 }
 
 export async function deleteFromFavoriteButton(formData: FormData) {
@@ -177,7 +338,7 @@ export async function deleteFromFavoriteButton(formData: FormData) {
   const pathName = formData.get("pathName") as string;
   const userId = formData.get("userId") as string;
 
-  const data = await prisma.favorite.delete({
+  await prisma.favorite.delete({
     where: {
       id: favoriteId,
       userId: userId,
@@ -186,30 +347,45 @@ export async function deleteFromFavoriteButton(formData: FormData) {
   revalidatePath(pathName);
 }
 
-export async function createReservation (formData: FormData) {
+export async function createReservation(formData: FormData) {
   const userId = formData.get("userId") as string;
   const homeId = formData.get("homeId") as string;
   const startDate = formData.get("startDate") as string;
-  const endDate =formData.get("endDate") as string;
+  const endDate = formData.get("endDate") as string;
 
-  
-  const data = await prisma.reservation.create ({
-    data:{
+  // FIX: Prevent duplicate reservations
+  // Check if this user already has an active (non-cancelled) reservation for this home
+  const existingReservation = await prisma.reservation.findFirst({
+    where: {
+      userId: userId,
+      homeId: homeId,
+      status: { not: "cancelled" }, // ignore cancelled ones
+    },
+  });
+
+  if (existingReservation) {
+    // User already has a reservation for this home — redirect to their reservations page
+    // so they can see/pay for the existing one instead of creating a duplicate
+    return redirect("/reservations?error=already_reserved");
+  }
+
+  await prisma.reservation.create({
+    data: {
       userId: userId,
       endDate: endDate,
       startDate: startDate,
       homeId: homeId,
     },
   });
-  return redirect("/");
 
+  return redirect("/reservations");
 }
 
 export async function cancelReservation(formData: FormData) {
   const reservationId = formData.get("reservationId") as string;
   const userId = formData.get("userId") as string;
 
-  // Make sure the reservation belongs to this user before cancelling
+  // Make sure the reservation belongs to this user before deleting
   const reservation = await prisma.reservation.findUnique({
     where: { id: reservationId },
   });
@@ -218,9 +394,32 @@ export async function cancelReservation(formData: FormData) {
     throw new Error("Reservation not found or unauthorized");
   }
 
-  await prisma.reservation.update({
+  // FIX: DELETE the reservation entirely instead of setting status="cancelled"
+  // This way cancelled reservations completely disappear from the reservations page
+  await prisma.reservation.delete({
     where: { id: reservationId },
-    data: { status: "cancelled" },
+  });
+
+  revalidatePath("/reservations");
+}
+
+
+export async function markReservationPaid({
+  homeId,
+  userId,
+}: {
+  homeId: string;
+  userId: string;
+}) {
+  await prisma.reservation.updateMany({
+    where: {
+      homeId,
+      userId,
+      paymentStatus: "pending",
+    },
+    data: {
+      paymentStatus: "paid",
+    },
   });
 
   revalidatePath("/reservations");

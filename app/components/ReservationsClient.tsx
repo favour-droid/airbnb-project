@@ -1,3 +1,4 @@
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -47,7 +48,6 @@ export function ReservationsClient({ data, userId }: Props) {
   );
 }
 
-// Separate card component so each card manages its own modal state independently
 function ReservationCard({
   item,
   userId,
@@ -70,7 +70,6 @@ function ReservationCard({
     fd.append("reservationId", item.id);
     fd.append("userId", userId);
     await cancelReservation(fd);
-    // After cancel (which now DELETES the record), refresh the page
     onMutate();
   }
 
@@ -84,13 +83,13 @@ function ReservationCard({
           onClose={() => setShowPayModal(false)}
           onSuccess={() => {
             setShowPayModal(false);
-            onMutate(); // refresh to show "Paid ✓"
+            onMutate();
           }}
         />
       )}
 
       <div className="flex flex-col rounded-lg border overflow-hidden">
-        {/* Listing image */}
+        {/* Listing image — NO status badge */}
         <div className="relative h-56">
           <Image
             src={`https://bjkfbtygdoawiobrjzyd.supabase.co/storage/v1/object/public/images/${item.home.photo}`}
@@ -98,18 +97,6 @@ function ReservationCard({
             fill
             className="object-cover"
           />
-          {/* Status badge */}
-          <div className="absolute top-2 left-2">
-            {isPaid ? (
-              <span className="bg-green-100 text-green-700 text-xs font-medium px-2 py-1 rounded-full">
-                Paid ✓
-              </span>
-            ) : (
-              <span className="bg-yellow-100 text-yellow-700 text-xs font-medium px-2 py-1 rounded-full">
-                Pending Payment
-              </span>
-            )}
-          </div>
         </div>
 
         {/* Card body */}
@@ -133,17 +120,22 @@ function ReservationCard({
 
           {/* Action buttons */}
           <div className="flex flex-col gap-2 mt-1">
-            {/* Pay button — only shown when not yet paid */}
-            {!isPaid && (
+            {isPaid ? (
+              // Paid: show only View Home button
+              <Button className="w-full" asChild>
+                <Link href={`/home/${item.home.id}`}>View Home</Link>
+              </Button>
+            ) : (
+              // Not paid: show Pay Now button
               <Button
-                className="w-full mt-1 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold"
+                className="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-semibold"
                 onClick={() => setShowPayModal(true)}
               >
                 💳 Pay Now
               </Button>
             )}
 
-            {/* Cancel button */}
+            {/* Cancel button — always visible */}
             <Button
               onClick={handleCancel}
               disabled={cancelling}
