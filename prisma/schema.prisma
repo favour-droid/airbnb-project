@@ -69,6 +69,9 @@ startDate DateTime
 endDate   DateTime
 createdAt DateTime @default(now())
 
+paymentStatus String @default("pending") 
+ status        String @default("active") 
+
   home      Home?   @relation(fields: [homeId], references: [id])
   homeId    String?
   user      User?   @relation(fields: [userId], references: [id])

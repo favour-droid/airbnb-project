@@ -30,7 +30,7 @@ export default function AddressRout({params}: {params: Promise<{id: string}>}) {
   const towns = region ? getRegionByValue(region)?.towns ?? [] : [];
 
 
-const [locationValue, setLocationValue] = useState("")
+// const [locationValue, setLocationValue] = useState("")
     const LazyMap = dynamic(() => import("@/app/components/Map"), {
       ssr: false,
       loading: () => <Skeleton  className="h-[50vh] w-full"/>,
@@ -118,7 +118,9 @@ const [locationValue, setLocationValue] = useState("")
           </Select>
 
               </div>
-              <LazyMap locationValue={locationValue} />
+              {/* <LazyMap locationValue={locationValue} /> */}
+
+              <LazyMap locationValue={town} />
               </div>
 <CreationButtomBar/>
         </form>

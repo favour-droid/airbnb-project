@@ -204,3 +204,24 @@ export async function createReservation (formData: FormData) {
   return redirect("/");
 
 }
+
+export async function cancelReservation(formData: FormData) {
+  const reservationId = formData.get("reservationId") as string;
+  const userId = formData.get("userId") as string;
+
+  // Make sure the reservation belongs to this user before cancelling
+  const reservation = await prisma.reservation.findUnique({
+    where: { id: reservationId },
+  });
+
+  if (!reservation || reservation.userId !== userId) {
+    throw new Error("Reservation not found or unauthorized");
+  }
+
+  await prisma.reservation.update({
+    where: { id: reservationId },
+    data: { status: "cancelled" },
+  });
+
+  revalidatePath("/reservations");
+}

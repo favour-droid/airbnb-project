@@ -104,7 +104,12 @@ className="w-11 h-11 rounded-full"
 <p className="text-muted-foreground">{data?.description}</p>
 
 <Separator className="my-7"/>
-<HomeMap locationValue={`${data?.region}, ${data?.town}`} />
+ {/* <HomeMap locationValue={`${data?.region}, ${data?.town}`} />  */}
+
+
+<HomeMap locationValue={data?.town ?? ""} />
+
+
 </div>
 <form action={createReservation}>
     <input type="hidden" name="homeId" value={params.id} />

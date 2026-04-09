@@ -102,7 +102,6 @@ interface iAppProps {
   favoriteId?: string;
   homeId?: string;
   pathName: string;
-  onPay?: (homeId: string, amount: number) => void;
 }
 
 export function ListingCard({
@@ -116,7 +115,6 @@ export function ListingCard({
   favoriteId,
   homeId,
   pathName,
-  onPay,
 }: iAppProps) {
   const format = (text?: string) =>
     text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
@@ -166,14 +164,6 @@ export function ListingCard({
         </p>
       </Link>
 
-      {onPay && (
-        <button
-          onClick={() => onPay(homeId!, price)}
-          className="bg-blue-600 text-white px-4 py-2 rounded mt-2"
-        >
-          Pay Now
-        </button>
-      )}
     </div>
   );
 }

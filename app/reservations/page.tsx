@@ -88,6 +88,8 @@ async function getData(userId: string) {
     where: { userId },
     select: {
       id: true,
+      paymentStatus: true,  // ← ADD THIS
+      status: true,          // ← ADD THIS
       home: {
         select: {
           id: true,
@@ -103,7 +105,6 @@ async function getData(userId: string) {
       },
     },
   });
-
   return data;
 }
 
@@ -126,7 +127,7 @@ export default async function ReservationsRoute() {
           description="Please add a reservation to see it right here..."
         />
       ) : (
-        <ReservationsClient data={data} userId={user.id} />
+         <ReservationsClient data={data} userId={user.id} />
       )}
     </section>
   );
